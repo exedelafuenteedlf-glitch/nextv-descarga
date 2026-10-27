@@ -1,0 +1,20 @@
+name: Preparar APK
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descomprimir
+        run: |
+          unzip -o NexTV-apk.zip
+          mv -f app-release.apk NexTV.apk
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add NexTV.apk
+          git commit -m "Agregar NexTV.apk" || echo sin cambios
+          git push
